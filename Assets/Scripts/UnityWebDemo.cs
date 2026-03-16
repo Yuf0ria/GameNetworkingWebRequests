@@ -117,7 +117,7 @@ public class UnityWebDemo : MonoBehaviour
 }
 
 [System.Serializable]
-public struct ObjectData
+public struct ObjectDatal
 {
     public string id;
     public string name;
