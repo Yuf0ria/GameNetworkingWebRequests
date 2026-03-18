@@ -114,7 +114,7 @@ public class PlayerAPIManager : MonoBehaviour
         ShowPanel(loginPanel);
     }
 
-    // ── API CALLS ──────────────────────────────
+    //API
 
     IEnumerator Register()
     {
@@ -207,9 +207,9 @@ public class PlayerAPIManager : MonoBehaviour
             {
                 var player = JsonConvert.DeserializeObject<PlayerResponse>(
                     request.downloadHandler.text);
-                usernameText.text = $"Player: {player.username}";
-                killsText.text = $"Kills: {player.kills}";
-                deathsText.text = $"Deaths: {player.deaths}";
+                usernameText.text = $"{player.username}";
+                killsText.text = $"{player.kills}";
+                deathsText.text = $"{player.deaths}";
                 ShowPanel(scorePanel);
             }
             else
