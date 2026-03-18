@@ -1497,7 +1497,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RestfulAPIManager
   contentParent: {fileID: 458171618}
-  itemPrefab: {fileID: 6604983338277851508, guid: 93fe56ee23fc06fb78de9cbf959b3125, type: 3}
+  itemPrefab: {fileID: 4418471535189232064, guid: 66915239205f758be969a93536f34a2c, type: 3}
   refreshButton: {fileID: 1278162521}
   addButton: {fileID: 1117969770}
   addPanel: {fileID: 510633249}
@@ -1512,7 +1512,6 @@ MonoBehaviour:
   saveEditButton: {fileID: 5170603}
   cancelEditButton: {fileID: 152668120}
   requestTimeout: 10
-  apiKey: your-api-key-here
 --- !u!1 &524708339
 GameObject:
   m_ObjectHideFlags: 0
@@ -4835,8 +4834,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 1920, y: 0}
-  m_SizeDelta: {x: 1920, y: 0}
+  m_AnchoredPosition: {x: 1743.08, y: 0}
+  m_SizeDelta: {x: 1591.8938, y: 0}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &1737737547
 MonoBehaviour:

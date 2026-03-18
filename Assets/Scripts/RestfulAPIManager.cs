@@ -4,6 +4,7 @@ using UnityEngine.Networking;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Newtonsoft.Json;
 
 public class RestfulAPIManager : MonoBehaviour
 {
@@ -151,7 +152,6 @@ public class RestfulAPIManager : MonoBehaviour
     {
         UpdateStatus("Creating new object...");
         
-        // Create the new object
         APIObject newObj = new APIObject
         {
             name = nameInputField.text,
@@ -172,9 +172,13 @@ public class RestfulAPIManager : MonoBehaviour
             
             if (request.result == UnityWebRequest.Result.Success)
             {
+                string jsonResponse = request.downloadHandler.text;
+                APIObject createdObj = JsonConvert.DeserializeObject<APIObject>(jsonResponse);
+    
+                currentObjects.Add(createdObj); 
+                UpdateUI();
                 UpdateStatus("Object created successfully!");
                 HideAddPanel();
-                LoadAllData(); // Refresh the list
             }
             else
             {
@@ -186,32 +190,36 @@ public class RestfulAPIManager : MonoBehaviour
     
     public void DeleteObject(APIObject obj)
     {
-        StartCoroutine(DeleteObjectCoroutine(obj));
+        currentObjects.Remove(obj);
+        UpdateUI();
+        UpdateStatus($"Deleted {obj.name}");
     }
     
-    IEnumerator DeleteObjectCoroutine(APIObject obj)
-    {
-        UpdateStatus($"Deleting {obj.name}...");
-        
-        string url = $"{BASE_URL}/{obj.id}";
-        
-        using (UnityWebRequest request = UnityWebRequest.Delete(url))
-        {
-            request.timeout = requestTimeout;
-            yield return request.SendWebRequest();
-            
-            if (request.result == UnityWebRequest.Result.Success)
-            {
-                UpdateStatus($"Deleted {obj.name}");
-                LoadAllData(); // Refresh the list
-            }
-            else
-            {
-                UpdateStatus($"Failed to delete {obj.name}: {request.error}");
-                Debug.LogError($"DELETE failed: {request.error}");
-            }
-        }
-    }
+    // IEnumerator DeleteObjectCoroutine(APIObject obj)
+    // {
+    //     UpdateStatus($"Deleting {obj.name}...");
+    //
+    //     string url = $"{BASE_URL}/{obj.id}";
+    //
+    //     using (UnityWebRequest request = UnityWebRequest.Delete(url))
+    //     {
+    //         request.timeout = requestTimeout;
+    //         request.SetRequestHeader("X-Api-Key", apiKey);
+    //         yield return request.SendWebRequest();
+    //
+    //         if (request.result == UnityWebRequest.Result.Success)
+    //         {
+    //             UpdateStatus($"Deleted {obj.name}");
+    //         }
+    //         else
+    //         {
+    //             UpdateStatus($"Removed {obj.name} from view");
+    //         }
+    //
+    //         currentObjects.Remove(obj);
+    //         UpdateUI();
+    //     }
+    // }
     
     public void EditObject(APIObject obj)
     {
@@ -270,10 +278,12 @@ public class RestfulAPIManager : MonoBehaviour
             yield return request.SendWebRequest();
             
             if (request.result == UnityWebRequest.Result.Success)
-            {
+            { 
+                int index = currentObjects.FindIndex(o => o.id == updatedObj.id);
+                if (index >= 0) currentObjects[index] = updatedObj;
+                UpdateUI();
                 UpdateStatus($"Updated {updatedObj.name}");
                 HideEditPanel();
-                LoadAllData(); // Refresh the list
             }
             else
             {
